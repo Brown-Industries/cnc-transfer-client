@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+  app:
+    build: app
+    restart: always
+    volumes:
+      - ./app/src:/src
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    networks:
+      - backend-network
+      - frontend-network
+    privileged: true
+    devices:
+      - '/dev:/dev'
+    ports:
+      - 41234:8080
+      - 3000:3000
+networks:
+  backend-network:
+  frontend-network:
