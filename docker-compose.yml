@@ -1,21 +1,23 @@
-version: "3.7"
+version: '3'
 services:
-  app:
-    build: app
-    restart: always
-    volumes:
-      - ./app/src:/src
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
-    networks:
-      - backend-network
-      - frontend-network
-    privileged: true
-    devices:
-      - '/dev:/dev'
+  nodejs-server:
+    build:
+      context: ./server
     ports:
-      - 41234:8080
-      - 3000:3000
-networks:
-  backend-network:
-  frontend-network:
+      - "3080:3080"
+    container_name: node-server
+    volumes:
+       - ./server:/usr/src/app/server
+       - /usr/src/app/server/node_modules
+       - ~/cnc_programs:/mnt/cnc_programs
+       
+  react-ui:
+    build:
+      context: ./react-ui
+    ports:
+      - "3000:3000"
+    container_name: react-ui
+    stdin_open: true
+    volumes:
+       - ./react-ui:/usr/src/app/react-ui
+       - /usr/src/app/react-ui/node_modules
