@@ -4,10 +4,13 @@ import './App.css';
 import { Header } from './components/Header'
 // import { Users } from './components/Users'
 import { DisplayBoard } from './components/DisplayBoard'
-import { CreateUser } from './components/CreateUser'
+// import { CreateUser } from './components/CreateUser'
 import { getAllUsers, createUser } from './services/UserService'
 import { getProgramList } from './services/FileService'
+import { sendProgram } from './services/TransferService'
 import { ProgramList } from './components/ProgramList'
+//import Paperbase from './theme/Paperbase';
+
 
 class App extends Component {
 
@@ -37,9 +40,17 @@ class App extends Component {
   getProgramList = () => {
     getProgramList()
       .then(files => {
-        console.log(files)
+        //console.log(files)
+        
+        console.log('length: ' + files.length)
         this.setState({files: files})
       });
+  } 
+
+  sendProgram = (e) => {
+    sendProgram(e).then(resp => {
+      console.log('Result: ' + resp)
+    });
   }
 
   onChangeForm = (e) => {
@@ -62,17 +73,16 @@ class App extends Component {
         <div className="container mrgnbtm">
           <div className="row">
             <div className="col-md-8">
-                <CreateUser 
+                {/* <CreateUser 
                   user={this.state.user}
                   onChangeForm={this.onChangeForm}
                   createUser={this.createUser}
                   >
-                </CreateUser>
+                </CreateUser> */}
             </div>
             <div className="col-md-4">
                 <DisplayBoard
-                  numberOfUsers={this.state.numberOfUsers}
-                  getAllUsers={this.getProgramList}
+                  getProgramList={this.getProgramList}
                 >
                 </DisplayBoard>
             </div>
@@ -82,7 +92,8 @@ class App extends Component {
           {/* <Users users={this.state.users}></Users> */}
           <ProgramList
                   files={this.state.files}
-                >                    
+                  sendProgram={this.sendProgram}
+                >                  
                 </ProgramList>
         </div>
       </div>

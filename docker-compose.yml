@@ -6,6 +6,9 @@ services:
     ports:
       - "3080:3080"
     container_name: node-server
+    privileged: true
+    devices:
+      - '/dev:/dev'
     volumes:
        - ./server:/usr/src/app/server
        - /usr/src/app/server/node_modules
